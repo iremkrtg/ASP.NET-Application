@@ -1,0 +1,266 @@
+@using System.Web.Http
+@using System.Web.Http.Controllers
+@using System.Web.Http.Description
+@using MyApp.Areas.HelpPage
+@using MyApp.Areas.HelpPage.Models
+@model IGrouping<HttpControllerDescriptor, ApiDescription>
+
+@{
+    var controllerDocumentation = ViewBag.DocumentationProvider != null ?
+        ViewBag.DocumentationProvider.GetDocumentation(Model.Key) :
+        null;
+}
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<button class="btn btn-default pull-left cmd-filter">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Artwork" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+    <path class="aw-theme-iconOutline" fill="#464646" d="M23,3c0-2.1-5.7-3-11-3S1,0.9,1,3c0,0.2,0.1,0.5,0.2,0.6L9,15.5v8c0,0.2,0.1,0.3,0.3,0.4  C9.3,24,9.4,24,9.5,24c0.1,0,0.2,0,0.3-0.1l5-3c0.2-0.1,0.2-0.3,0.2-0.4v-5l7.8-11.9C22.9,3.5,23,3.2,23,3z M12,1c6.5,0,10,1.3,10,2  s-3.5,2-10,2S2,3.7,2,3S5.5,1,12,1z M14.1,15.1C14,15.2,14,15.3,14,15.4v4.8l-4,2.4v-7.2c0-0.1,0-0.2-0.1-0.3L3.2,4.9  C5.4,5.6,8.8,6,12,6c3.3,0,6.6-0.4,8.8-1.1L14.1,15.1z" />
+    </svg>
+    Filter
+</button>
+<button class="btn btn-default pull-left cmd-refresh">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Artwork" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+    <path class="aw-theme-iconOutline" fill="#464646" d="M21,14c0,5-4,9-9,9s-9-4-9-9s4-9,9-9h4.4l-3.3,3.1l0.7,0.7l4.5-4.4l-4.5-4.4l-0.7,0.7L16.4,4H12  C6.5,4,2,8.5,2,14s4.5,10,10,10s10-4.5,10-10H21z" />
+    </svg>
+    Refresh
+</button>
+<button class="btn btn-default pull-left cmd-change-status">
+    <svg xmlns="http://www.w3.org/2000/svg" id="Livello_1" data-name="Livello 1" viewBox="0 0 24 24" width="18px" height="18px">
+        <g id="g834">
+            <path id="path9" d="M8.356,0C6.6,0,4.708.472,4.708,1.51V2.793a.965.965,0,0,0,.427.767V6.975L3.463,10.457l-.007.02L1.915,13.692.1,17.477V17.5a.7.7,0,0,0-.023.078c-.009.026-.021.063-.03.1A1.424,1.424,0,0,0,0,17.99C0,19.944,4.311,21,8.364,21c.76,0,1.527-.038,2.275-.111l.162-.02a7.558,7.558,0,0,1-.355-.846c-.653.059-1.339.1-2.09.1C3.72,20.125.875,18.883.875,18a.494.494,0,0,1,.032-.166l.021-.043c.389-.863,3.141-1.924,7.43-1.924.642,0,1.239.03,1.81.074a7.44,7.44,0,0,1,.245-.867,17.245,17.245,0,0,0-2.057-.088,17.4,17.4,0,0,0-6.625,1.129L3.8,11.8c.848.728,2.754,1.068,4.559,1.068a10.353,10.353,0,0,0,3.8-.623,7.5,7.5,0,0,1,1.41-1.125L11.581,6.974V3.56a.954.954,0,0,0,.427-.767V1.51C12.008.472,10.115,0,8.356,0m0,.881a4.367,4.367,0,0,1,2.766.621c-.108.192-1.041.639-2.766.639a4.4,4.4,0,0,1-2.768-.624C5.7,1.326,6.63.881,8.356.881m2.778,1.646v.244a.563.563,0,0,1-.193.163,5.846,5.846,0,0,1-2.6.49,5.8,5.8,0,0,1-2.332-.4V3.006L5.75,2.918a1.373,1.373,0,0,1-.162-.125V2.529a7.038,7.038,0,0,0,2.774.492,7.026,7.026,0,0,0,2.772-.494M10.7,3.965V7.074L11.845,9.49a9.014,9.014,0,0,0-1.92-.41H9.916q-.373-.043-.756-.066H9.094c-.246-.014-.494-.02-.741-.02s-.5.007-.743.02H7.543c-.253.015-.5.038-.754.066H6.776a9.1,9.1,0,0,0-1.866.393L5.97,7.266l.037-3.3a6.5,6.5,0,0,0,2.055.343c.088,0,.185,0,.275-.007A6.628,6.628,0,0,0,10.7,3.965M8.354,9.871c.319,0,.616.012.9.031.1.007.182.018.272.026.185.016.37.035.539.058.078.011.149.023.223.035.175.029.351.059.5.094l.113.027c.184.043.354.088.51.139l.021.01c.148.048.3.1.439.166l.018.008a2.388,2.388,0,0,1,.274.146c.031.02.063.039.088.059s.066.051.1.078a.464.464,0,0,1,.088.105.21.21,0,0,1,.039.078c0,.308-1.446,1.057-4.132,1.057s-4.131-.752-4.131-1.057a.22.22,0,0,1,.037-.076.516.516,0,0,1,.094-.109c.03-.023.062-.046.094-.066a.69.69,0,0,1,.105-.074v0a2.529,2.529,0,0,1,.252-.133l.045-.02c.123-.055.264-.107.418-.16l.037-.012c.15-.047.319-.094.5-.137l.117-.027c.158-.035.332-.064.51-.094.075-.011.142-.024.219-.035.17-.024.356-.043.544-.06.088-.009.178-.017.266-.024.283-.019.582-.031.9-.031" class="aw-theme-iconOutline" fill="#464646" />
+            <path id="path824" d="M17.6,16.943s-.034-.214-.074-.469c-.066-.413-.072-.465-.054-.473s.307-.052.656-.105c.73-.111.708-.107.7-.122s-.075-.066-.158-.133a3.668,3.668,0,0,0-1.785-.846,2.119,2.119,0,0,0-.821.076,2.453,2.453,0,0,0-.509.265,3.189,3.189,0,0,0-.9,1.115c-.04.077-.075.142-.077.145s-.827-.431-.853-.449c0,0,.044-.074.257-.4a3.481,3.481,0,0,1,1.58-1.539,3.548,3.548,0,0,1,.8-.184,2.709,2.709,0,0,1,.693.013,5.155,5.155,0,0,1,2.084,1.014.733.733,0,0,0,.169.107c0-.008-.04-.289-.092-.625s-.092-.612-.089-.615.216-.038.473-.077l.467-.072.226,1.461c.124.8.224,1.463.222,1.465s-.644.1-1.427.221-1.439.222-1.458.226a.093.093,0,0,1-.036,0Z" class="aw-theme-iconOutline" fill="#464646" />
+            <path id="path3-5" d="M17.5,24a6.487,6.487,0,1,1,.026,0H17.5m0-12A5.5,5.5,0,1,0,23,17.5,5.5,5.5,0,0,0,17.5,12" class="aw-theme-iconOutline" fill="#464646" />
+            <path id="circle5-7" d="M17,19.251A1.75,1.75,0,1,1,15.251,17.5h0A1.75,1.75,0,0,1,17,19.251Z" class="aw-theme-iconOutline" fill="#464646" />
+            <path id="circle5-4" d="M19.762,17.508a1.76,1.76,0,1,0,.024,0Zm.012,1h.01a.75.75,0,0,1,.75.75h0a.75.75,0,1,1-.76-.75Z" class="aw-theme-iconOutline" fill="#464646" />
+        </g>
+    </svg>
+    Status Change
+</button>
+
+
+
+
+@if (!String.IsNullOrEmpty(controllerDocumentation))
+{
+    <p>@controllerDocumentation</p>
+}
+
+<div style="position:relative">
+        <button class="btn btn-default pull-left cmd-window-editor">
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="18px" height="18px">
+                <g id="g862">
+                    <path id="rect816" d="M0,0H24V1H0V0Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect816-9" d="M0,4.043H24v1H0v-1Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect816-9-0" d="M1,0V24H0V0H1Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect816-9-0-7" d="M24,0V9H23V0h1Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect816-9-0-7-3" d="M8,24H0V23H8v1Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect1037" d="M2,2H6V3H2V2Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect1037-1" d="M8,2h4V3H8V2Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect1037-7" d="M14,2h4V3H14V2Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect1037-7-0" d="M21,2h1V3H21V2Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841" d="M6,5H7V23H6V5Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841-3" d="M12,5h1V16H12V5Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841-0" d="M18,5h1v5H18V5Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841-32" d="M19,9v1H1V9H19Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841-32-9" d="M14,14v1H1V14H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="rect841-32-9-3" d="M9,19v1H1V19H9Z" class="aw-theme-iconOutline" fill="#464646" />
+                    <path id="path852" d="M9.209,23.989c-.156-.03-.309-.176-.309-.293s1.335-4.088,1.433-4.235c.041-.064,2.316-2.283,5.043-4.933,3.724-3.618,5.03-4.849,5.229-4.941a1.433,1.433,0,0,1,.51-.126c.509,0,.646.083,1.616,1A12.885,12.885,0,0,1,23.754,11.5a1.366,1.366,0,0,1-.015,1.418c-.067.09-2.326,2.3-5.018,4.908l-4.9,4.741-2.111.7c-2.155.716-2.309.762-2.5.721Zm2.15-1.393c.667-.206,1.233-.392,1.258-.413A16.993,16.993,0,0,0,10.925,20.5a11.449,11.449,0,0,0-.422,1.163c-.213.64-.4,1.2-.411,1.234s-.009.069.013.069.587-.166,1.254-.371ZM17.5,17.855l4.012-3.882-1.05-1.021a12.819,12.819,0,0,0-1.1-1.007c-.075.021-7.986,7.683-7.991,7.739s2.016,2.046,2.079,2.051c.024,0,1.847-1.746,4.053-3.879Zm5.513-5.388c.163-.288.11-.373-.759-1.225a8.084,8.084,0,0,0-.957-.855c-.213-.068-.352.01-.846.474l-.478.448L21.04,12.34l1.065,1.03.422-.392a4.27,4.27,0,0,0,.485-.512Z" class="aw-theme-iconOutline" fill="#464646" />
+                </g>
+            </svg>
+        </button>
+    
+    <table class="help-page-table filter_results_grid">
+        <thead>
+            <tr>
+                <th>ShortDescription</th>
+                <th>Description</th>
+                <th>CreationDate</th>
+                <th>StatusDescription</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="list-short-description">SC20210824-6</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T12:05:23.137227+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td>SC20210824-5</td>
+                <td>1628St</td>
+                <td>2021-08-24T12:03:39.7509356+03:00</td>
+                <td>Created</td>
+                <td><i class="far fa-comment-alt"></i></td>
+                <td><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210824-4</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T12:02:37.9964466+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210824-3</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T12:05:23.137227+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210824-2</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T11:30:19.4257656+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210824-1</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T10:54:44.266944+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210824-0</td>
+                <td class="list-description">1628St</td>
+                <td class="list-creation-date">2021-08-24T10:45:08.2899169+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210823-1</td>
+                <td class="list-description">BFR_SampleType</td>
+                <td class="list-creation-date">2021-08-23T15:35:50.0390363+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210819-1</td>
+                <td class="list-description">abp_st</td>
+                <td class="list-creation-date">2021-08-19T12:55:30.5332987+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210819-0</td>
+                <td class="list-description">abp_st</td>
+                <td class="list-creation-date">2021-08-19T12:55:25.6112491+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210818-1</td>
+                <td class="list-description">cs_Doc_Sc</td>
+                <td class="list-creation-date">2021-08-18T18:23:45.2322353+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210818-0</td>
+                <td class="list-description">ST with IP SQL</td>
+                <td class="list-creation-date">2021-08-18T15:50:34.611178+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210817-10</td>
+                <td class="list-description">cs_Doc_Sc</td>
+                <td class="list-creation-date">2021-08-17T18:26:05.8575709+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210817-8</td>
+                <td class="list-description">17.08SC</td>
+                <td class="list-creation-date">2021-08-17T14:08:29.6638497+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210817-3</td>
+                <td class="list-description">tst_doclistview_ST</td>
+                <td class="list-creation-date">2021-08-17T11:37:21.9980284+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+            <tr>
+                <td class="list-short-description">SC20210817-2</td>
+                <td class="list-description">tst_doclistview_ST</td>
+                <td class="list-creation-date">2021-08-17T11:15:59.1188426+03:00</td>
+                <td class="list-status-description">Created</td>
+                <td class="list-comment-icon"><i class="far fa-comment-alt"></i></td>
+                <td class="list-thumbtack-icon"><i class="fas fa-thumbtack"></i></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="layout vertical-buttons">
+        <ul class="myUl">
+            <li>
+                <button class="btn btn-default square-button pull-right cmd-settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Artwork" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+                    <path class="aw-theme-iconOutline" fill="#464646" d="M13.8,24h-3.6l-1.5-4.2l-3.9,1.9l-2.5-2.5l1.9-4L0,13.8v-3.6l4.2-1.5L2.3,4.8l2.5-2.5l4,1.9L10.2,0h3.6  l1.5,4.2l3.9-1.9l2.5,2.5l-1.9,4l4.2,1.4v3.6l-4.2,1.5l1.9,3.9l-2.5,2.5l-4-1.9L13.8,24z M10.9,23h2.2l1.2-3.5  c0.1-0.3,0.3-0.5,0.6-0.6c0.2-0.1,0.5-0.1,0.8,0l3.4,1.6l1.5-1.5l-1.6-3.4c-0.1-0.2-0.1-0.5,0-0.8c0.1-0.3,0.3-0.4,0.6-0.5l0,0  L23,13v-2.2l-3.5-1.2c-0.3-0.1-0.5-0.3-0.6-0.5c-0.1-0.2-0.1-0.5,0-0.8L20.5,5L19,3.4L15.6,5c-0.2,0.1-0.5,0.1-0.8,0  c-0.2-0.1-0.4-0.3-0.5-0.6L13.1,1h-2.2L9.7,4.5C9.6,4.7,9.4,4.9,9.1,5C8.9,5.1,8.6,5.1,8.4,5L5,3.4L3.5,5l1.6,3.4  c0.1,0.2,0.1,0.5,0,0.8S4.8,9.5,4.5,9.6L1,10.9V13l3.5,1.2c0.3,0.1,0.5,0.3,0.6,0.5c0.1,0.2,0.1,0.5,0,0.8L3.5,19L5,20.5l3.4-1.6  c0.2-0.1,0.5-0.1,0.8,0c0.3,0.1,0.5,0.3,0.5,0.6L10.9,23z" />
+                    <path class="aw-theme-iconOutline" fill="#464646" d="M12,16c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4S14.2,16,12,16z M12,9c-1.7,0-3,1.3-3,3s1.3,3,3,3s3-1.3,3-3  S13.7,9,12,9z" />
+    </svg>
+                    Properties
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-default square-button pull-right cmd-design-elements">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="svg8" viewBox="0 0 24 24" height="18px" width="18px">
+                        <g id="g847">
+                            <path id="rect827" d="M14,23H24v1H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3" d="M23,14.746h1v8.432H23Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-3" d="M14,14H24v1H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-6" d="M14,14.8h1v8.432H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-2" d="M0,21H10v1H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-66" d="M9,12.72h1V21.2H9Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-3-5" d="M0,12H10v1H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-6-4" d="M0,12.746H1v8.559H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-2-7" d="M0,9H10v1H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-66-5" d="M9,.847h1V9.2H9Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-3-5-7" d="M0,0H10V1H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-6-4-7" d="M0,.619H1V9.381H0Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-2-7-3" d="M14,9H24v1H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-66-5-9" d="M23,.771h1V9.407H23Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect827-3-5-7-7" d="M14,0H24V1H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="rect829-3-6-4-7-1" d="M14,.7h1V9.1H14Z" class="aw-theme-iconOutline" fill="#464646" />
+                        </g>
+                    </svg>
+                    Info Cards
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-default square-button pull-right cmd-parameter-group">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Livello_3" data-name="Livello 3" viewBox="0 0 24 24" height="18px" width="18px">
+                        <g id="g818">
+                            <path id="path823" d="M7.979,19.727c-.188-.134-.426-.311-.529-.392a7.159,7.159,0,0,1-2.642-4.913A10.232,10.232,0,0,1,4.8,12.8a6.919,6.919,0,0,1,1.778-4,8.172,8.172,0,0,1,3.915-2.344,7.03,7.03,0,0,1,2.95-.018,7.575,7.575,0,0,1,3.105,1.469,9.573,9.573,0,0,1,1.021,1,7.253,7.253,0,0,1,1.6,3.579,10,10,0,0,1,.01,1.934,7.749,7.749,0,0,1-1.641,3.858,9.151,9.151,0,0,1-1.126,1.137c-.146.119-.352.3-.459.393a1.466,1.466,0,0,1-.2.167c-.005,0-.184-.237-.4-.517s-.567-.714-.781-.966l-.391-.457H9.906l-.734.9c-.4.5-.761.931-.793.968l-.058.068Zm.338-1.377c.29-.335.49-.582.813-1.006l.3-.391h5.24l.33.414c.392.492.851,1.044.9,1.085s.142-.032.476-.394a5.976,5.976,0,0,0,.724-.906,6.711,6.711,0,0,0,1.013-2.585,6.171,6.171,0,0,0-1.518-5.234,6.3,6.3,0,0,0-3.279-1.87,6.212,6.212,0,0,0-5.178,1.2A7.936,7.936,0,0,0,7.119,9.682a6,6,0,0,0-1.191,2.5,6.73,6.73,0,0,0,.507,4.279,5.513,5.513,0,0,0,.693,1.12,8.3,8.3,0,0,0,.983.983A1.6,1.6,0,0,0,8.317,18.35Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="path825" d="M11.591,14.833A1.424,1.424,0,0,1,10.553,13l.057-.164-.48-.486-1.149-1.16-.669-.674.343-.343L9,9.826l1.154,1.155,1.155,1.156.176-.059a1.56,1.56,0,0,1,1.161.084,1.126,1.126,0,0,1,.376.28,1.3,1.3,0,0,1,.426,1,1.433,1.433,0,0,1-1.023,1.37A1.813,1.813,0,0,1,11.591,14.833Z" class="aw-theme-iconOutline" fill="#464646" />
+                            <path id="path2" d="M10,3.927,8.416,1.7A1.979,1.979,0,0,0,7.045.927H1.432A1.447,1.447,0,0,0,.014,2.4C.014,27.638,0,15.79,0,22H24V3.89ZM23,17.886V21H1V17.264C.945,14.981.952,5.594,1.021,4.833l.023-2.365c0-.37.015-.544.4-.544H7a1.647,1.647,0,0,1,.8.516L9.526,4.927H23v.146C23.07,6.28,23.07,16.678,23,17.886Z" class="aw-theme-iconOutline" fill="#464646" />
+                        </g>
+                    </svg>
+                    Results
+                </button>
+            </li>
+        </ul>
+    </div>
+
+</div>

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div>
+        <ul id="tlyPageGuide_frg" data-tourtitle="Filter Results Grid">
+            <li class="tlypageguide_left" data-tourtarget=".filter_results_grid">
+                Filter Results screen is shown, displaying a list of Samples that match the filter criteria set in the Filter panel.
+                To perform another filtering, click the <img src="~/Images/filter_button.PNG" width="70" height="30" style="border-radius:2px" /> button. This reopens the Filter panel.
+            </li>
+            <li class="tlypageguide_top" data-tourtarget=".cmd-window-editor">
+                <div>
+                    Change layout button allows one to select a different Layout for the Filter Results grid.
+                    The Change the filter results grid layout dropdown list opens.
+                    The currently set default Layout is shown; besides this, the dropdown list contains all other Layouts the User has access to.
+                    The dropdown list displays only those Layouts which have their Layout Type corresponding to the currently selected object.
+
+                    To perform a Layout change on the UI on operational level, the User must have ‘Layout change for filter results’ Functional Access Rights.
+                    This Layout change takes place on User level, meaning that a Filter Results data grid Layout changed by a given User does not affect the way other Users see the same grid.
+
+                </div>
+            </li>
+        </ul>
+
+        <ul id="tlyPageGuide_ccb" data-tourtitle="Contextual Command Bar">
+            <li class="tlypageguide_top" data-tourtarget=".cmd-filter">
+                <div>
+                    Allows one to perform another filtering. This reopens the Filter panel.
+                </div>
+            </li>
+            <li class="tlypageguide_top" data-tourtarget=".cmd-refresh">
+                <div>
+                    Refreshes the Filter Results grid information and any other opened Tabs.
+                </div>
+            </li>
+            <li class="tlypageguide_top" data-tourtarget=".cmd-change-status">
+                <div>
+                    Allows one to perform manual status change(s) on selected object(s).
+                    Depending on the Life Cycle Transitions a new window will open with the respective status change options.
+                    The window also allows the possibility to add a Comment for the status change if necessary.
+                    <img src="~/Images/status_change_img.png" width="436" height="390" style="vertical-align:bottom" />
+                </div>
+            </li>
+            
+        </ul>
+
+        <ul id="tlyPageGuide_vcb" data-tourtitle="Vertical command bar">
+            <li class="tlypageguide_left" data-tourtarget=".cmd-settings">
+                <div>
+                    Opens the Properties sheet of the selected Sample.
+                    The Property sheet contains the following tabs:
+                        <p>Standard Properties</p>
+                        <p>Optional Date Info</p>
+                        <p>Access Rights</p>
+                        <p>Attributes</p>
+                        <p>Locations</p>
+                        <p>Audit</p>
+                </div>
+            </li>
+            <li class="tlypageguide_left" data-tourtarget=".cmd-design-elements">
+                <div>
+                    Opens the Info Cards belonging to the selected Sample.
+                </div>
+            </li>
+            <li class="tlypageguide_left" data-tourtarget=".cmd-parameter-group">
+                <div>
+                    Opens the results belonging to the selected Sample.
+                </div>
+            </li>
+        </ul>
+       </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Opcenter RD&L", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Sample Wizard", "Index", "Help", new { area = "HelpPage" }, null)</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        @RenderSection("SPAViews", required: false)
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Internship Project :)</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/pageguide")
+    <script type="text/javascript">
+        $(document).ready(function () {
+        //Filter Results Grid
+        let frg = {
+            steps_element: "#tlyPageGuide_frg",
+            pg_caption: "Filter Results<br> &emsp;Grid",
+            default_zindex: 100
+        };
+        tl.pg.init(frg);
+
+        //Contextual command bar
+        let ccb = {
+            steps_element: "#tlyPageGuide_ccb",
+            pg_caption: "Contextual<br> command bar",
+            default_zindex: 200
+        };
+        tl.pg.init(ccb);
+
+        //Vertical command bar
+        let vcb = {
+            steps_element: "#tlyPageGuide_vcb",
+            pg_caption: "&emsp;Vertical<br> command bar",
+            default_zindex: 300
+        };
+        tl.pg.init(vcb); 
+    })
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
